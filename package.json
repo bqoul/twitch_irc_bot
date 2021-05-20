@@ -1,0 +1,19 @@
+{
+  "name": "twitch_irc_bot",
+  "version": "1.0.0",
+  "description": "bot that allow to use twitch chat in telegram",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bqoul/twitch_irc_bot.git"
+  },
+  "author": "bqoul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bqoul/twitch_irc_bot/issues"
+  },
+  "homepage": "https://github.com/bqoul/twitch_irc_bot#readme"
+}
