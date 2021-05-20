@@ -11,9 +11,9 @@ module.exports = ctx => {
 
     fs.writeFileSync(`data/${ctx.chat.id}.json`, JSON.stringify({
         username: data?.username,
-        oauth: ctx.message.text.split(" ")[1],
-        channel: data?.channel,
+        oauth: data?.oauth,
+        channel: ctx.message.text.split(" ")[1],
     }, null, 4));
 
-    ctx.reply("Oauth token has been set");
+    ctx.reply(`Channel has been set to twitch.tv/${ctx.message.text.split(" ")[1]}`);
 }

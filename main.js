@@ -7,7 +7,7 @@ How? Why? Those are questions i cant help you with, BUT!\n
 \nConfiguration guide:\n
 1. Use /username command to set your existing twitch username;
 2. Use /oauth command to set your twitch oauth token (you can use https://twitchapps.com/tmi/ to generate one);
-3. Use /connect command to connect this bot to the channel you want to chat in;
+3. Use /channel to set the twitch channel of your choice;
 \nAll Done, enjoy!\n
 \nP.S. My creator asked to tell you this: "btw by doing those steps you basically giving me your twitch account, please cosider creating new twitch account just for this bot"`);
 });
@@ -24,9 +24,9 @@ bot.on("message", ctx => {
             oauth(ctx);
             break;
 
-        case "/connect":
-            const connect = require("./commands/connect");
-            connect(ctx);
+        case "/channel":
+            const channel = require("./commands/channel");
+            channel(ctx);
             break;
     }
 });
