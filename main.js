@@ -66,6 +66,10 @@ bot.telegram.on("message", async ctx => {
                     await twitch[ctx.chat.id].disconnect();
                     ctx.reply(`disconnected from twitch.tv/${info.channel}`);
                 } catch {
+                    //sometimes twitch.connect() throws an error "cant connect to the server"
+                    //only solution i found is to use the /disconnect command
+                    //and add try{}catch{} inside of it (if connected[ctx.chat.id] is true but user
+                    //is not actually connected to the channel)
                     ctx.reply("not connected to the channel");
                 } finally {
                     connected[ctx.chat.id] = false;
