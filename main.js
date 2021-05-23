@@ -1,7 +1,9 @@
 const bot = require("./bot");
 const data = require("./alias/data");
 
-let twitch = bot.twitch("default");
+//creating empty objects so i can make different twitch client/connected info for every user
+let twitch = {};
+let connected = {};
 let info = data.get("default")
 
 bot.telegram.start((ctx) => {
@@ -33,28 +35,39 @@ bot.telegram.on("message", async ctx => {
             break;
 
         case "/connect":
-            twitch = bot.twitch(ctx.chat.id);
-            await twitch.connect();
+            //check if particular user connected already
+            if(!connected[ctx.chat.id]) {
+                //creating new client for him
+                twitch[ctx.chat.id] = bot.twitch(ctx.chat.id);
+                await twitch[ctx.chat.id].connect();
+                connected[ctx.chat.id] = true;
 
-            info = data.get(ctx.chat.id);
-            ctx.reply(`connected to twitch.tv/${info.channel} have fun chatting!`);
-            twitch.on("message", (channel, user, message, self) => {
-                if(self) {
-                    return
-                }
+                info = data.get(ctx.chat.id);
+                ctx.reply(`connected to twitch.tv/${info.channel} have fun chatting!`);
+                twitch[ctx.chat.id].on("message", (channel, user, message, self) => {
+                    if(self) {
+                        return
+                    }
 
-                ctx.reply(`${user.username}: ${message}`);
-            });
+                    ctx.reply(`${user.username}: ${message}`);
+                });
+            }
             break;
 
         case "/disconnect":
-            await twitch.disconnect();
-            ctx.reply(`disconnected from twitch.tv/${info.channel}`);
+            //check if particular user connected already
+            if(connected[ctx.chat.id]) {
+                //and disconnecting his client from the channel
+                await twitch[ctx.chat.id].disconnect();
+                ctx.reply(`disconnected from twitch.tv/${info.channel}`);
+                connected[ctx.chat.id] = false;
+            }
             break;
 
         default:
+            //sending messages to twitch chat
             info = data.get(ctx.chat.id);
-            twitch.say(info.channel, ctx.message.text);
+            twitch[ctx.chat.id].say(info.channel, ctx.message.text);
             break;
     }
 });
