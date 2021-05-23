@@ -3,7 +3,6 @@ const data = require("./alias/data");
 
 let twitch = bot.twitch("default");
 let info = data.get("default")
-let connected = false;
 
 bot.telegram.start((ctx) => {
     ctx.reply(`Hello, ${ctx.chat.username}!\n
@@ -36,12 +35,11 @@ bot.telegram.on("message", async ctx => {
         case "/connect":
             twitch = bot.twitch(ctx.chat.id);
             await twitch.connect();
-            connected = true;
 
             info = data.get(ctx.chat.id);
             ctx.reply(`connected to twitch.tv/${info.channel} have fun chatting!`);
             twitch.on("message", (channel, user, message, self) => {
-                if(self || !connected) {
+                if(self) {
                     return
                 }
 
@@ -50,8 +48,7 @@ bot.telegram.on("message", async ctx => {
             break;
 
         case "/disconnect":
-            connected = false;
-            twitch = bot.twitch("default");
+            await twitch.disconnect();
             ctx.reply(`disconnected from twitch.tv/${info.channel}`);
             break;
 
