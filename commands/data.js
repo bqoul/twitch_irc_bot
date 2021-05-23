@@ -17,7 +17,7 @@ module.exports = {
             oauth: data.oauth,
             channel: data.channel,
         }, null, 4));
-        ctx.reply(`Username has been set to ${ctx.message.split(" ")[1]}`);
+        ctx.reply(`Username has been set to ${ctx.message.text.split(" ")[1]}`);
     },
 
     oauth: (ctx) => {
@@ -37,6 +37,6 @@ module.exports = {
             oauth: data.oauth,
             channel: ctx.message.text.split(" ")[1],
         }, null, 4));
-        ctx.reply(`Channel has been set to ${ctx.message.split(" ")[1]}`);
+        ctx.reply(`Channel has been set to ${ctx.message.text.split(" ")[1]}`);
     },
 }
