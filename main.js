@@ -70,6 +70,8 @@ bot.telegram.on("message", async ctx => {
                 } finally {
                     connected[ctx.chat.id] = false;
                 }
+            } else {
+                ctx.reply("not connected to the channel");
             }
             break;
 
