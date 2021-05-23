@@ -53,7 +53,7 @@ bot.telegram.on("message", async ctx => {
                         ctx.reply(`${user.username}: ${message}`);
                     });
                 } catch {
-                    ctx.reply("Configurate your information property before connecting.");
+                    ctx.reply("configurate your information property before connecting.");
                 }
             }
             break;
@@ -61,10 +61,15 @@ bot.telegram.on("message", async ctx => {
         case "/disconnect":
             //check if particular user connected already
             if(connected[ctx.chat.id]) {
-                //and disconnecting his client from the channel
-                await twitch[ctx.chat.id].disconnect();
-                ctx.reply(`disconnected from twitch.tv/${info.channel}`);
-                connected[ctx.chat.id] = false;
+                try {
+                    //and disconnecting his client from the channel
+                    await twitch[ctx.chat.id].disconnect();
+                    ctx.reply(`disconnected from twitch.tv/${info.channel}`);
+                } catch {
+                    ctx.reply("not connected to the channel");
+                } finally {
+                    connected[ctx.chat.id] = false;
+                }
             }
             break;
 
