@@ -38,19 +38,23 @@ bot.telegram.on("message", async ctx => {
             //check if particular user connected already
             if(!connected[ctx.chat.id]) {
                 //creating new client for him
-                twitch[ctx.chat.id] = bot.twitch(ctx.chat.id);
-                await twitch[ctx.chat.id].connect();
-                connected[ctx.chat.id] = true;
+                try {
+                    twitch[ctx.chat.id] = bot.twitch(ctx.chat.id);
+                    await twitch[ctx.chat.id].connect();
+                    connected[ctx.chat.id] = true;
 
-                info = data.get(ctx.chat.id);
-                ctx.reply(`connected to twitch.tv/${info.channel} have fun chatting!`);
-                twitch[ctx.chat.id].on("message", (channel, user, message, self) => {
-                    if(self) {
-                        return
-                    }
+                    info = data.get(ctx.chat.id);
+                    ctx.reply(`connected to twitch.tv/${info.channel} have fun chatting!`);
+                    twitch[ctx.chat.id].on("message", (channel, user, message, self) => {
+                        if(self) {
+                            return
+                        }
 
-                    ctx.reply(`${user.username}: ${message}`);
-                });
+                        ctx.reply(`${user.username}: ${message}`);
+                    });
+                } catch {
+                    ctx.reply("Configurate your information property before connecting.");
+                }
             }
             break;
 
@@ -66,9 +70,11 @@ bot.telegram.on("message", async ctx => {
 
         default:
             //sending messages to twitch chat
-            info = data.get(ctx.chat.id);
-            twitch[ctx.chat.id].say(info.channel, ctx.message.text);
-            break;
+            if(connected[ctx.chat.id]) {
+                info = data.get(ctx.chat.id);
+                twitch[ctx.chat.id].say(info.channel, ctx.message.text);
+                break;
+            }
     }
 });
 
