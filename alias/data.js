@@ -39,4 +39,8 @@ module.exports = {
         }, null, 4));
         ctx.reply(`Channel has been set to ${ctx.message.text.split(" ")[1]}`);
     },
+
+    get: (id) => {
+        return get(id);
+    },
 }
