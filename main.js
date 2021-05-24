@@ -53,7 +53,7 @@ bot.telegram.on("message", async ctx => {
                         ctx.reply(`${user.username}: ${message}`);
                     });
                 } catch {
-                    ctx.reply("configurate your information property before connecting.");
+                    ctx.reply("configurate your information properly before connecting.");
                 }
             }
             break;
